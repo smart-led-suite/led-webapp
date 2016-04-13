@@ -1,1 +1,3 @@
-<input type="range" min="0" max="1000" value="{{value}}">
+<div ng-controller="view">
+<input id="slider" ng-change="sendSliderValue()" ng-model="myValue" type="range" min="0" max="1000" value="{{value}}">
+</div>

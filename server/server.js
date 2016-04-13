@@ -14,17 +14,23 @@ io.sockets.on('connection', function(socket) {
   console.log('client connected');
 });
 
+//** SOCKET COMMUNICATION ***
 io.sockets.on('connection', function(socket) {
-
+//communicate about daniel
   setTimeout(function() {
 		socket.emit('hello', 'Daniel', function (err, response) {
       console.log('recieved an answer' + response);
     console.log("change name to daniel");
   })
 	}, 3000);
-  //STDINPUT
-  var stdin = process.openStdin();
+// communicate about slidervalue
+socket.on('slidervalue', function(value) {
+  console.log("slider changed. new value " + value);
+});
 
+// change slidervalue via STDINPUT (cli)
+//STDINPUT
+  var stdin = process.openStdin();
   stdin.addListener("data", function(d) {
       // note:  d is an object, and when converted to a string it will
       // end with a linefeed.  so we (rather crudely) account for that
@@ -35,7 +41,7 @@ io.sockets.on('connection', function(socket) {
           console.log(value);
           if (value != NaN)
           {
-            socket.emit('slidervalue', value, function (err, response) {
+            socket.emit('slidervalueFromServer', value, function (err, response) {
               console.log('recieved an answer' + response);
               console.log("change slider to " + value);
             });

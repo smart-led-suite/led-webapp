@@ -23,31 +23,27 @@ angular.module('App').controller('frontpage', function ($scope, Socket) {
   Socket.on('hello', function(name, callback) {
     $scope.name = name;
     callback(false, {response: 'hello'});
-  })
+  });
 });
 // view controller
 angular.module('App').controller('view', function ($scope, Socket) {
   console.log('Hello from view controller');
-  $scope.value = 0;
-/*  for (var i = 0; i < 1000; i++) {
-    setTimeout(function() {
-      $scope.value = i;
-      //console.log($scope.value);
-    }, 100);
-  }*/
-  //while($scope.value < 1000)
-  //{
-
-    Socket.on('slidervalue', function (value) {
-        $scope.value = value;
-      //console.log(value);
+  //send slider value to server
+    $scope.sendSliderValue = function() {
+      Socket.emit('slidervalue', document.getElementById('slider').value);
+      console.log("value changed to " + document.getElementById('slider').value);
+    }
+    //get slidervalue from server
+    //doesn't work simultaneously
+    Socket.on('slidervalueFromServer', function (value) {
+        document.getElementById('slider').value = value;
     })
 //  }
 
 });
 
 // ****** SOCKETS ************************************************
-// **FIRSTTESTs**
+// **FIRSTTESTs**/ CUSTOM
 // connect socket
 /* var socket = io.connect();
 // socket testing
@@ -57,7 +53,8 @@ socket.on('hello', function (data, callback) {
   callback(false, {response: 'hello'});
 }); */
 // *****
-
+//implementation by http://www.interaktionsdesigner.de/2013/die-killerapplikation-mit-node.js-socket.io-und-angularjs
+//TODO: understand how this works
 angular.module('Services', []).
 	factory('Socket', function($rootScope) {
 		var socket = io.connect();
