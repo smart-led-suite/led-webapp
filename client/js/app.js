@@ -30,13 +30,13 @@ angular.module('App').controller('view', function ($scope, Socket) {
   console.log('Hello from view controller');
   //send slider value to server
     $scope.sendSliderValue = function() {
-      Socket.emit('slidervalue', document.getElementById('slider').value);
-      console.log("value changed to " + document.getElementById('slider').value);
+      Socket.emit('slidervalue', $scope.myValue);
+      console.log("value changed to " + $scope.myValue);
     }
     //get slidervalue from server
     //doesn't work simultaneously
     Socket.on('slidervalueFromServer', function (value) {
-        document.getElementById('slider').value = value;
+        $scope.myValue = value;
     })
 //  }
 
