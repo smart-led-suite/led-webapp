@@ -1,0 +1,63 @@
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="expires" content="0">
+    <title>(beta) LED Steuerung @ Home</title>
+    <link rel="icon"
+          type="image/ico"
+          href="favicon.ico">
+    <!-- import google material design apis -->
+    <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-blue.min.css" />
+    <script src="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <!-- import custom stylesheet -->
+    <link rel="stylesheet" media="screen" href="newdesign.css">
+    <!-- add background -->
+    <style>
+        .led-layout {
+            bgcolor:#d6d6d6;
+        }
+    </style>
+
+</head>
+<body  bgcolor="#d6d6d6">
+ <main class="mdl-layout__content"  >
+        <div class="page-content">
+            <!-- Steady lighting is the former index.html with the sliders -->
+
+            <div class="mdl-grid ">
+                <div class="mdl-cell mdl-cell--middle  mdl-cell--stretch mdl-cell--6-col mdl-cell--4-col-phone mdl-cell--8-col-tablet ">
+                    <div class="mdl-card mdl-shadow--4dp steady_lighting-card">
+                        <div class="mdl-card__title">
+                            <h2 class="mdl-card__title-text">Farben einstellen</h2>
+                        </div>
+                        <form action="fade.php" method="get">
+                            <input type="hidden" name="url" value="/html/index.php" />
+                            <div class="mdl-card__actions mdl-card--border" style="color:#000000; background-color:#9e9e9e; " >
+                                weiß oben
+                                <input class="mdl-slider mdl-js-slider" ng-model="w" ng-change="sendSliderValue(w, 'w')" type="range" name="w" min="0" max="1000" step="1" value="0">
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border" style="color:#000000; background-color:#9e9e9e; " >
+                                IKEA-Lampe
+                                <input class="mdl-slider mdl-js-slider" ng-model="w1" ng-change="sendSliderValue(w1, 'w1')" type="range" name="w1" min="0" max="1000" step="1" value="0">
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border" style="color:#ffffff; background-color:#d2050a; " >
+                                rot
+                                <input class="mdl-slider mdl-js-slider" ng-model="r" ng-change="sendSliderValue(r, 'r')" type="range" name="r" min="0" max="1000" step="1" value="0">
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border" style="color:#ffffff; background-color:#26a300; " >
+                                grün
+                                <input class="mdl-slider mdl-js-slider" ng-model="g" ng-change="sendSliderValue(g, 'g')" type="range" name="g" min="0" max="1000" step="1" value="0">
+                            </div>
+                            <div class="mdl-card__actions mdl-card--border" style="color:#ffffff; background-color:#0f70ff; " >
+                                blau
+                                <input class="mdl-slider mdl-js-slider" ng-model="b" ng-change="sendSliderValue(b, 'b')" type="range" name="b" min="0" max="1000" step="1" value="0">
+                            </div>
+                        </form>
+</div>
+</div></div></div></div></div>
+</main>
+</div>
+</body>
+</html>

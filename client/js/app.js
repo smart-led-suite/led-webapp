@@ -9,7 +9,7 @@ angular.module('App').config(function ($routeProvider) {
     controller: 'frontpage',
   });
   $routeProvider.when('/view', {
-    templateUrl: 'partials/view.html',
+    templateUrl: 'partials/leds.html',
     controller: 'view',
   });
   console.log('anglular config here :D');
@@ -29,13 +29,18 @@ angular.module('App').controller('frontpage', function ($scope, Socket) {
 angular.module('App').controller('view', function ($scope, Socket) {
   console.log('Hello from view controller');
   //send slider value to server
-    $scope.sendSliderValue = function() {
-      Socket.emit('slidervalue', $scope.myValue);
+    $scope.sendSliderValue = function(val, id) {
+        Socket.emit('slidervalue', {
+            value: eval('$scope.' + id), // the value is saved in $scope.{value of id} -> evaluate this to get dynamic var
+            id: id
+        });
+
       console.log("value changed to " + $scope.myValue);
     }
     //get slidervalue from server
     //doesn't work simultaneously
     Socket.on('slidervalueFromServer', function (value) {
+
         $scope.myValue = value;
     })
 //  }

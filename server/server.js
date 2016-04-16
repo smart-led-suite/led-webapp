@@ -25,7 +25,7 @@ io.sockets.on('connection', function(socket) {
 	}, 3000);
 // communicate about slidervalue
 socket.on('slidervalue', function(value) {
-  console.log("slider changed. new value " + value);
+  console.log("slider " + value.id + " changed. new value " + value.value);
 });
 
 // change slidervalue via STDINPUT (cli)
