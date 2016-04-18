@@ -9,6 +9,7 @@ var server = connect()
   .listen(3000);
 console.log('server started and listens to 192.168.2.4:3000');
 
+
 //init socket
 var io = socket.listen(server);
 io.sockets.on('connection', function(socket) {
@@ -29,10 +30,10 @@ socket.on('slidervalue', function(value) {
   console.log("slider " + value.id + " changed. new value " + value.value);
     // write value to /dev/led-blaster
     var command = value.id + '=' + value.value;
+    var pipe = fs.createWriteStream('/dev/led-blaster');
     console.log(command);
-    fs.writeFile('../led-blaster', command, function (err) {
-        if (err) return console.log(err);
-    });
+    pipe.write(command);
+	pipe.close();
 });
 
 // change slidervalue via STDINPUT (cli)
