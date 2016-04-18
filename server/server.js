@@ -1,6 +1,7 @@
 var connect = require('connect');
 var serveStatic = require('serve-static');
 var socket = require('socket.io');
+var fs = require('fs'); // needed to write to file
 
 //save connect in app
 var server = connect()
@@ -26,6 +27,12 @@ io.sockets.on('connection', function(socket) {
 // communicate about slidervalue
 socket.on('slidervalue', function(value) {
   console.log("slider " + value.id + " changed. new value " + value.value);
+    // write value to /dev/led-blaster
+    var command = value.id + '=' + value.value;
+    console.log(command);
+    fs.writeFile('../led-blaster', command, function (err) {
+        if (err) return console.log(err);
+    });
 });
 
 // change slidervalue via STDINPUT (cli)
