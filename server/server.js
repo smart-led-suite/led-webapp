@@ -5,6 +5,7 @@ var fs = require('fs'); // needed to write to file
 
 //save connect in app
 var server = connect()
+  .use('/view', serveStatic(__dirname + '/../client/'))
   .use(serveStatic(__dirname + '/../client/'))
   .listen(3000);
 console.log('server started and listens to 192.168.2.4:3000');
@@ -29,7 +30,7 @@ io.sockets.on('connection', function(socket) {
 socket.on('slidervalue', function(value) {
   console.log("slider " + value.id + " changed. new value " + value.value);
     // write value to /dev/led-blaster
-    var command = value.id + '=' + value.value;
+    var command = value.id + '=' + value.value + '\n';
     var pipe = fs.createWriteStream('/dev/led-blaster');
     console.log(command);
     pipe.write(command);

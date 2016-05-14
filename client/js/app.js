@@ -3,7 +3,7 @@
 angular.module('App', ['Services']);
 
 // create app router for url management/redirect
-angular.module('App').config(function ($routeProvider) {
+angular.module('App').config(function ($routeProvider, $locationProvider) {
   $routeProvider.when('/frontpage', {
     templateUrl: 'partials/frontpage.html',
     controller: 'frontpage',
@@ -14,6 +14,11 @@ angular.module('App').config(function ($routeProvider) {
   });
   console.log('anglular config here :D');
   // $routeProvider.otherwise({redirectTo: '/frontpage'});
+  
+  $locationProvider.html5Mode({
+    enabled: true,
+    requireBase: false
+  });
 });
 
 // frontpage controller
