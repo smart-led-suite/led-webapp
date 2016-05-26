@@ -2,7 +2,39 @@
 #include <node.h>
 #include <string>
 #include <sstream>
-#include <pigpio.h>
+
+// led-blaster includes
+#include <iostream>
+#include <cstdlib>
+#include <pigpio.h> // TODO enable again!
+#include <stdio.h>
+#include <string.h>
+#include <string>
+#include <map>
+#include <vector>
+
+#include <string>
+#include <pthread.h>
+#include <stdint.h> //libary which includes uint8_t etc.
+#include <stdio.h>
+#include <stdlib.h>
+#include <signal.h>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <linux/stat.h>
+
+#include "./led-blaster/led.hpp"
+#include "./led-blaster/modes.hpp"
+#include "./led-blaster/fade.hpp"
+#include "./led-blaster/config.h"
+#include "./led-blaster/file.hpp"
+#include "./led-blaster/init.hpp"
+#include "./led-blaster/led-blaster-pre.hpp"
+#include "./led-blaster/fifo.hpp"
+// led-blaster includes end
+
+
+//#include <pigpio.h>
 
 namespace demo {
 
@@ -30,22 +62,23 @@ void Add(const FunctionCallbackInfo<Value>& args) {
     }
 
     // Check the argument types
-    if (!args[0]->IsNumber() || !args[1]->IsNumber()) {
+    if (!args[0]->IsString() || !args[1]->IsNumber()) {
     isolate->ThrowException(Exception::TypeError(
         String::NewFromUtf8(isolate, "Wrong arguments")));
     return;
     }
 
     // Perform the operation
-    int pin = args[0]->NumberValue();
+    v8::String::Utf8Value s(args[0]);
+    std::string pin = std::string(*s);
     int val = args[1]->NumberValue();
 
     std::stringstream str(std::string(""));
-    str << "Setting pin " << std::to_string(pin) << " to value of " << std::to_string(val);
+    str << "Setting pin " << pin << " to value of " << std::to_string(val);
 
     Local<String> returnVal = String::NewFromUtf8(isolate, str.str().c_str()); // isolate, "Setting Pin " << std::string(pin) << " to " << val);
 
-    gpioPWM(pin, val);
+    //gpioPWM(pin, val);
 
     // Set the return value (using the passed in
     // FunctionCallbackInfo<Value>&)
@@ -53,16 +86,9 @@ void Add(const FunctionCallbackInfo<Value>& args) {
 }
 
 void Init(Local<Object> exports) {
-    
-    gpioTerminate();
-    gpioInitialise();
-    
-    gpioSetMode(17, 1);
-    
-    gpioSetPWMfrequency(17, 200);
-    gpioSetPWMrange(17, 1000);
-    gpioPWM(17, 0);
-    
+
+    initialize();
+
     NODE_SET_METHOD(exports, "add", Add);
 }
 
